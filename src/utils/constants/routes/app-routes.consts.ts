@@ -1,5 +1,5 @@
 export const GlobalRoutes = {
-  Auth: '/auth'
+  Auth: '/auth',
 };
 
 export const AuthRoutes = {
