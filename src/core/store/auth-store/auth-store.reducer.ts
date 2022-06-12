@@ -34,10 +34,12 @@ const clearUser = (state: AuthStoreState, action: PayloadAction) => {
 };
 
 const startLoading = (state: AuthStoreState, action: PayloadAction) => {
+  console.log('test');
   state.isLoading = true;
 };
 
 const stopLoading = (state: AuthStoreState, action: PayloadAction) => {
+  console.log('test');
   state.isLoading = false;
 };
 
