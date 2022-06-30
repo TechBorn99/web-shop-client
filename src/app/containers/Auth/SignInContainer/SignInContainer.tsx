@@ -1,11 +1,12 @@
-import SignInCard, { SignInFormModel } from 'app/components/Auth/SignInCard';
+import SignInCard from 'app/components/Auth/SignInCard/SignInCard';
 import authService from 'core/services/http/auth/auth.service';
 import { authStoreSagas } from 'core/store/auth-store/auth-store.types';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { showErrorMessage } from 'utils/constants/messages/messages.helper';
 import { GlobalRoutes } from 'utils/constants/routes/app-routes.consts';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { SignInFormModel } from 'utils/constants/form-models/AuthFormModels';
 //import { RootState } from 'types';
 //import { authStoreActions } from 'core/store/auth-store/auth-store.slice';
 

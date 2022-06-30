@@ -9,15 +9,11 @@ import React from 'react';
 import { useNavigate } from 'react-router';
 import { SignInFormValidator } from 'utils/constants/validators/auth.form-validators';
 import { AuthRoutes } from 'utils/constants/routes/app-routes.consts';
+import { SignInFormModel } from 'utils/constants/form-models/AuthFormModels';
 
 interface SignInCardProps {
   isLoading?: boolean;
   onSubmit: (values: any) => void;
-}
-
-export interface SignInFormModel {
-  email: string;
-  password: string;
 }
 
 const SignInCard = ({ isLoading, onSubmit }: SignInCardProps) => {
@@ -57,13 +53,14 @@ const SignInCard = ({ isLoading, onSubmit }: SignInCardProps) => {
               text='Forgot password'
               type='link'
               onClick={onForgotPasswordClick}
+              isLoading={isLoading}
             />
           </Form>
         </WebShopAuthCardContent>
         <WebShopAuthCardAdditionalInfo>
           <h1>WebShop</h1>
           <img
-            src='https://i.ibb.co/JpfbfJF/003-Mac-Book-Space-Gray.png'
+            src='https://i.ibb.co/JpfbfJF/003-Mac-Book-Space-Gray.png' // TODO: replace and save in assets
             alt='screenshot'
           />
           <h3>Welcome to the WebShop</h3>

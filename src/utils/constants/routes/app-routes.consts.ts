@@ -1,6 +1,6 @@
 export const GlobalRoutes = {
   Home: '/',
-  Auth: '/auth/*',
+  Auth: '/auth',
   NotFound: '*',
 };
 

@@ -8,7 +8,8 @@ import {
   AuthRoutes,
   GlobalRoutes,
 } from 'utils/constants/routes/app-routes.consts';
-import { SignInContainer } from './containers/Auth/SignInContainer';
+import { SignInContainer } from './containers/Auth/SignInContainer/SignInContainer';
+import ForgotPasswordContainer from './containers/Auth/ForgotPasswordContainer/ForgotPasswordContainer';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -26,6 +27,10 @@ export function App() {
         <Route path={GlobalRoutes.Home} element={<HomePage />} />
         <Route path={GlobalRoutes.Auth}>
           <Route path={AuthRoutes.SignIn} element={<SignInContainer />} />
+          <Route
+            path={AuthRoutes.ForgotPassword}
+            element={<ForgotPasswordContainer />}
+          />
           <Route path={GlobalRoutes.NotFound} element={<NotFoundPage />} />
         </Route>
         <Route path={GlobalRoutes.NotFound} element={<NotFoundPage />} />

@@ -1,16 +1,22 @@
+const emailValidationPattern =
+  "^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$";
+
+const emailValidationPatternMessage = 'E-mail address not valid!';
+
+const requiredFieldMessage = 'This field is required!';
+
 export const SignInFormValidator = {
   email: [
-    { required: true, message: 'This field is required!' },
+    { required: true, message: requiredFieldMessage },
     {
-      pattern:
-        "^[a-zA-Z0-9.!#$%&'*+=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:.[a-zA-Z0-9-]+)*$",
-      message: 'E-mail address not valid!',
+      pattern: emailValidationPattern,
+      message: emailValidationPatternMessage,
     },
   ],
   password: [
     {
       required: true,
-      message: 'This field is required!',
+      message: requiredFieldMessage,
     },
     // {
     //   pattern:
@@ -18,5 +24,15 @@ export const SignInFormValidator = {
     //   message:
     //     'Lozinka treba da ima minimum 8 karaktera, jedno veliko slovo, jedno malo slovo, jedan broj i jedan specijalan karakter!',
     // },
+  ],
+};
+
+export const ForgotPasswordFormValidator = {
+  email: [
+    { required: true, message: requiredFieldMessage },
+    {
+      pattern: emailValidationPattern,
+      message: emailValidationPatternMessage,
+    },
   ],
 };
