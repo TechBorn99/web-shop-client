@@ -11,6 +11,7 @@ import {
 import { SignInContainer } from './containers/Auth/SignInContainer/SignInContainer';
 import ForgotPasswordContainer from './containers/Auth/ForgotPasswordContainer/ForgotPasswordContainer';
 import ResetPasswordContainer from './containers/Auth/ResetPasswordContainer/ResetPasswordContainer';
+import SignUpContainer from './containers/Auth/SignUpContainer/SignUpContainer';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -27,6 +28,7 @@ export function App() {
       <Routes>
         <Route path={GlobalRoutes.Home} element={<HomePage />} />
         <Route path={GlobalRoutes.Auth}>
+          <Route path={AuthRoutes.SignUp} element={<SignUpContainer />} />
           <Route path={AuthRoutes.SignIn} element={<SignInContainer />} />
           <Route
             path={AuthRoutes.ForgotPassword}

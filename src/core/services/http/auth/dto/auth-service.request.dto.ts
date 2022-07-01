@@ -5,10 +5,10 @@ export interface SignInRequestDTO {
 
 export interface SignUpRequestDTO {
   email: string;
-  password: string;
   firstName: string;
   lastName: string;
   phoneNumber: string;
+  role: string;
 }
 
 export interface ResetPasswordRequestDTO {

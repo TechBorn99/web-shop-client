@@ -12,7 +12,7 @@ import { AuthRoutes } from 'utils/constants/routes/app-routes.consts';
 import { SignInFormModel } from 'utils/constants/form-models/AuthFormModels';
 
 interface SignInCardProps {
-  isLoading?: boolean;
+  isLoading: boolean;
   onSubmit: (values: any) => void;
 }
 

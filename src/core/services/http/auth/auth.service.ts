@@ -5,6 +5,7 @@ import {
   ForgotPasswordRequestDTO,
   ResetPasswordRequestDTO,
   SignInRequestDTO,
+  SignUpRequestDTO,
 } from './dto/auth-service.request.dto';
 import {
   ResetPasswordResponseDTO,
@@ -13,6 +14,14 @@ import {
 } from './dto/auth-service.response.dto';
 
 class AuthService extends BaseHttpService {
+  signUp(
+    requestDTO: SignUpRequestDTO,
+  ): Promise<AxiosResponse<UserDetailsResponseDTO>> {
+    return this.http.post(WebShopApiAuthUrls.SignUp, requestDTO, {
+      withCredentials: true,
+    });
+  }
+
   signIn(
     requestDTO: SignInRequestDTO,
   ): Promise<AxiosResponse<SignInResponseDTO>> {
