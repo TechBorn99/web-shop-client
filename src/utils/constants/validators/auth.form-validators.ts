@@ -18,12 +18,6 @@ export const SignInFormValidator = {
       required: true,
       message: requiredFieldMessage,
     },
-    // {
-    //   pattern:
-    //     '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?.!@$%^&*-]).{8,}$',
-    //   message:
-    //     'Lozinka treba da ima minimum 8 karaktera, jedno veliko slovo, jedno malo slovo, jedan broj i jedan specijalan karakter!',
-    // },
   ],
 };
 
@@ -34,5 +28,35 @@ export const ForgotPasswordFormValidator = {
       pattern: emailValidationPattern,
       message: emailValidationPatternMessage,
     },
+  ],
+};
+
+export const ResetPasswordFormValidator = {
+  password: [
+    {
+      required: true,
+      message: requiredFieldMessage,
+    },
+    {
+      pattern:
+        '^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?.!@$%^&*-]).{8,}$',
+      message:
+        'A password must contain at least 8 characters, one uppercase letter, one lowercase letter, one digit and one special character!',
+    },
+  ],
+  confirmPassword: [
+    {
+      required: true,
+      message: requiredFieldMessage,
+    },
+    ({ getFieldValue }) => ({
+      validator(_, value) {
+        if (!value || getFieldValue('password') === value) {
+          return Promise.resolve();
+        }
+
+        return Promise.reject(new Error('Passwords do not match!'));
+      },
+    }),
   ],
 };

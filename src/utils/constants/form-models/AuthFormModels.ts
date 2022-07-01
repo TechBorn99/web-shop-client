@@ -6,3 +6,7 @@ export interface SignInFormModel {
 export interface ForgotPasswordFormModel {
   email: string;
 }
+
+export interface ResetPasswordFormModel {
+  password: string;
+}

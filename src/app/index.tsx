@@ -10,6 +10,7 @@ import {
 } from 'utils/constants/routes/app-routes.consts';
 import { SignInContainer } from './containers/Auth/SignInContainer/SignInContainer';
 import ForgotPasswordContainer from './containers/Auth/ForgotPasswordContainer/ForgotPasswordContainer';
+import ResetPasswordContainer from './containers/Auth/ResetPasswordContainer/ResetPasswordContainer';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -30,6 +31,10 @@ export function App() {
           <Route
             path={AuthRoutes.ForgotPassword}
             element={<ForgotPasswordContainer />}
+          />
+          <Route
+            path={AuthRoutes.ResetPassword}
+            element={<ResetPasswordContainer />}
           />
           <Route path={GlobalRoutes.NotFound} element={<NotFoundPage />} />
         </Route>
