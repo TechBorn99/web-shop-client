@@ -29,6 +29,7 @@ const WebShopFormRadioButton = ({
       labelCol={{ span: 24 }}
       name={name}
       rules={rules}
+      initialValue={defaultValue}
     >
       <Radio.Group
         onChange={onChange}

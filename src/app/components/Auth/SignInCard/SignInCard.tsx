@@ -23,6 +23,10 @@ const SignInCard = ({ isLoading, onSubmit }: SignInCardProps) => {
     navigate(AuthRoutes.ForgotPassword);
   };
 
+  const onSignUpClick = () => {
+    navigate(AuthRoutes.SignUp);
+  };
+
   return (
     <div className='webshop-auth-container__card'>
       <WebShopAuthCardContainer>
@@ -53,6 +57,12 @@ const SignInCard = ({ isLoading, onSubmit }: SignInCardProps) => {
               text='Forgot password'
               type='link'
               onClick={onForgotPasswordClick}
+              isLoading={isLoading}
+            />
+            <WebShopFormButton
+              text='Sign up'
+              type='ghost'
+              onClick={onSignUpClick}
               isLoading={isLoading}
             />
           </Form>
