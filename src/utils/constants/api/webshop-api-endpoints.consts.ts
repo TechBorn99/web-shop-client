@@ -1,4 +1,4 @@
-const WEBSHOP_API_BASE_URL = `${process.env.REACT_APP_FIN_API_URL}/api`;
+const WEBSHOP_API_BASE_URL = `${process.env.REACT_APP_WEBSHOP_API_URL}/api`;
 
 export const WEBSHOP_API_AUTH_BASE_URL = `${WEBSHOP_API_BASE_URL}/auth`;
 export const WEBSHOP_API_USERS_BASE_URL = `${WEBSHOP_API_BASE_URL}/users`;
