@@ -12,36 +12,41 @@ import { SignInContainer } from './containers/Auth/SignInContainer/SignInContain
 import ForgotPasswordContainer from './containers/Auth/ForgotPasswordContainer/ForgotPasswordContainer';
 import ResetPasswordContainer from './containers/Auth/ResetPasswordContainer/ResetPasswordContainer';
 import SignUpContainer from './containers/Auth/SignUpContainer/SignUpContainer';
+import AuthChecker from './components/Checkers/AuthChecker';
+import WebShopStoreInitializer from './components/Initializers/WebShopStoreInitializer';
 
 export function App() {
   const { i18n } = useTranslation();
   return (
     <BrowserRouter>
-      <Helmet
-        titleTemplate='%s - WebShop'
-        defaultTitle='WebShop'
-        htmlAttributes={{ lang: i18n.language }}
-      >
-        <meta name='description' content='Online WebShop App' />
-      </Helmet>
+      <AuthChecker>
+        <WebShopStoreInitializer />
+        <Helmet
+          titleTemplate='%s - WebShop'
+          defaultTitle='WebShop'
+          htmlAttributes={{ lang: i18n.language }}
+        >
+          <meta name='description' content='Online WebShop App' />
+        </Helmet>
 
-      <Routes>
-        <Route path={GlobalRoutes.Home} element={<HomePage />} />
-        <Route path={GlobalRoutes.Auth}>
-          <Route path={AuthRoutes.SignUp} element={<SignUpContainer />} />
-          <Route path={AuthRoutes.SignIn} element={<SignInContainer />} />
-          <Route
-            path={AuthRoutes.ForgotPassword}
-            element={<ForgotPasswordContainer />}
-          />
-          <Route
-            path={AuthRoutes.ResetPassword}
-            element={<ResetPasswordContainer />}
-          />
+        <Routes>
+          <Route path={GlobalRoutes.Home} element={<HomePage />} />
+          <Route path={GlobalRoutes.Auth}>
+            <Route path={AuthRoutes.SignUp} element={<SignUpContainer />} />
+            <Route path={AuthRoutes.SignIn} element={<SignInContainer />} />
+            <Route
+              path={AuthRoutes.ForgotPassword}
+              element={<ForgotPasswordContainer />}
+            />
+            <Route
+              path={AuthRoutes.ResetPassword}
+              element={<ResetPasswordContainer />}
+            />
+            <Route path={GlobalRoutes.NotFound} element={<NotFoundPage />} />
+          </Route>
           <Route path={GlobalRoutes.NotFound} element={<NotFoundPage />} />
-        </Route>
-        <Route path={GlobalRoutes.NotFound} element={<NotFoundPage />} />
-      </Routes>
+        </Routes>
+      </AuthChecker>
     </BrowserRouter>
   );
 }

@@ -10,7 +10,6 @@ function* handleSignUserIn(action: PayloadAction<SignInResponseDTO>) {
   const {
     payload: { token, account },
   } = action;
-
   yield localStorageService.signUserIn({ token });
   yield put(authStoreActions.setUserInfo(account));
 }
