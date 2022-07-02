@@ -26,8 +26,12 @@ export const SignInContainer = () => {
       dispatch(authStoreSagas.signUserIn(data));
 
       navigate(GlobalRoutes.Home);
-    } catch {
-      showErrorMessage('Wrong credentials entered!');
+    } catch (err: any) {
+      if (err.response.status === 401) {
+        showErrorMessage('Wrong credentials entered!');
+      } else {
+        showErrorMessage('An error occurred!');
+      }
     } finally {
       setIsLoading(false);
       //dispatch(authStoreActions.stopLoading());

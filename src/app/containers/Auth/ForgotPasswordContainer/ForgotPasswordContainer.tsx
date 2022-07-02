@@ -24,8 +24,12 @@ const ForgotPasswordContainer = () => {
       showSuccessMessage(
         `E-mail was sent to address: ${email}. Please check your inbox.`,
       );
-    } catch {
-      showErrorMessage('User not found.');
+    } catch (err: any) {
+      if (err.response.status === 404) {
+        showErrorMessage('User not found.');
+      } else {
+        showErrorMessage('An error occurred!');
+      }
     } finally {
       setIsLoading(false);
     }

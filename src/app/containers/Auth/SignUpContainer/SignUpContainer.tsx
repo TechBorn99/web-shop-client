@@ -35,8 +35,10 @@ const SignUpContainer = () => {
 
       navigate(AuthRoutes.SignIn);
     } catch (err: any) {
-      if (err.response.status) {
+      if (err.response.status === 409) {
         showErrorMessage('Account with this e-mail address already exists!');
+      } else if (err.response.status === 422) {
+        showErrorMessage('Invalid phone number!');
       } else {
         showErrorMessage('An error occurred!');
       }
