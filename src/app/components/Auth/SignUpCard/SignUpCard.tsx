@@ -18,7 +18,6 @@ const SignUpCard = ({ isLoading, onSubmit }: SignUpCardProps) => {
   const [role, setRole] = useState('WEBSHOP_CUSTOMER');
 
   const onChange = (e: RadioChangeEvent) => {
-    console.log(e.target.value);
     setRole(e.target.value);
   };
 
