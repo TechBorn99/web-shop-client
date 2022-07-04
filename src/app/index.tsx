@@ -14,9 +14,11 @@ import ResetPasswordContainer from './containers/Auth/ResetPasswordContainer/Res
 import SignUpContainer from './containers/Auth/SignUpContainer/SignUpContainer';
 import AuthChecker from './components/Checkers/AuthChecker';
 import WebShopStoreInitializer from './components/Initializers/WebShopStoreInitializer';
+import WebShopHeader from './components/Layout/Header/WebShopHeader';
 
 export function App() {
   const { i18n } = useTranslation();
+
   return (
     <BrowserRouter>
       <AuthChecker>
@@ -28,7 +30,7 @@ export function App() {
         >
           <meta name='description' content='Online WebShop App' />
         </Helmet>
-
+        <WebShopHeader />
         <Routes>
           <Route path={GlobalRoutes.Home} element={<HomePage />} />
           <Route path={GlobalRoutes.Auth}>
