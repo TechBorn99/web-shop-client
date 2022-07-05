@@ -8,14 +8,14 @@ const WebShopFooter = () => {
       <div className='grid-wrapper'>
         <div className='grid'>
           <div className='grid-content-1 grid-title'>About company</div>
-          <div className='grid-content-2'>Available soon</div>
-          <div className='grid-content-3'>Available soon</div>
+          <div className='grid-content-2'>Coming soon</div>
+          <div className='grid-content-3'>Coming soon</div>
           <div className='grid-content-4 grid-title'>Our products</div>
-          <div className='grid-content-5'>Available soon</div>
-          <div className='grid-content-6'>Available soon</div>
+          <div className='grid-content-5'>Coming soon</div>
+          <div className='grid-content-6'>Coming soon</div>
           <div className='grid-content-7 grid-title'>Help</div>
-          <div className='grid-content-8'>Available soon</div>
-          <div className='grid-content-9'>Available soon</div>
+          <div className='grid-content-8'>Coming soon</div>
+          <div className='grid-content-9'>Coming soon</div>
         </div>
       </div>
       <hr

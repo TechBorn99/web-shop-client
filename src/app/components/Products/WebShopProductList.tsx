@@ -2,6 +2,7 @@ import { Avatar, Divider, List } from 'antd';
 import { Roles } from 'core/services/http/auth/dto/auth-service.response.dto';
 import {
   FilterRequestDTO,
+  GetProductPageWithFiltersRequestDTO,
   SortersRequestDTO,
 } from 'core/services/http/products/dto/product-service.request.dto';
 import {
@@ -19,7 +20,10 @@ import {
 } from 'utils/constants/messages/messages.helper';
 import { ProductRoutes } from 'utils/constants/routes/app-routes.consts';
 import { numberFormatter } from 'utils/helpers/number-formatter.helper';
+import WebShopProductFilters from '../Shared/Form/Misc/WebShopProductFilters/WebShopProductFilters';
+import WebShopProductSorters from '../Shared/Form/Misc/WebShopProductSorters/WebShopProductSorters';
 import WebShopButton from '../Shared/Misc/WebShopButton/WebShopButton';
+import WebShopCollapse from '../Shared/Misc/WebShopCollapse/WebShopCollapse';
 import WebShopPagination from '../Shared/Misc/WebShopPagination/WebShopPagination';
 import './styles.scss';
 
@@ -29,12 +33,14 @@ const WebShopProductList = () => {
   const user = useSelector((state: RootState) => state.auth.user);
   const [pageSize, setPageSize] = useState(10);
   const [pageNumber, setPageNumber] = useState(1);
+  const [filters, setFilters] = useState<FilterRequestDTO>();
+  const [sorters, setSorters] = useState<SortersRequestDTO>();
 
-  const loadData = async (
-    pageable: PageableDTO,
-    sorters?: SortersRequestDTO,
-    filters?: FilterRequestDTO,
-  ) => {
+  const loadData = async ({
+    pageable,
+    sorters,
+    filters,
+  }: GetProductPageWithFiltersRequestDTO) => {
     try {
       setIsLoading(true);
 
@@ -46,9 +52,10 @@ const WebShopProductList = () => {
 
       setData(data);
 
-      setPageSize(data.productPage.pageable?.pageSize || 10);
-      setPageNumber(data.productPage.pageable?.pageNumber || 1);
+      setPageSize(data.productPage?.pageable?.pageSize || 10);
+      setPageNumber(data.productPage?.pageable?.pageNumber || 1);
     } catch (err: any) {
+      console.log(err);
       showErrorMessage('An error occurred while loading data!');
     } finally {
       setIsLoading(false);
@@ -64,9 +71,11 @@ const WebShopProductList = () => {
       await productService.makeProductUnavailable(item.uuid);
 
       loadData({
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-        offset: (pageNumber - 1) * pageSize,
+        pageable: {
+          pageNumber: pageNumber,
+          pageSize: pageSize,
+          offset: (pageNumber - 1) * pageSize,
+        },
       });
 
       showSuccessMessage('Product availability changed successfully!');
@@ -86,9 +95,11 @@ const WebShopProductList = () => {
       await productService.makeProductAvailable(item.uuid);
 
       loadData({
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-        offset: (pageNumber - 1) * pageSize,
+        pageable: {
+          pageNumber: pageNumber,
+          pageSize: pageSize,
+          offset: (pageNumber - 1) * pageSize,
+        },
       });
 
       showSuccessMessage('Product availability changed successfully!');
@@ -108,9 +119,11 @@ const WebShopProductList = () => {
       await productService.softDeleteProduct(item.uuid);
 
       loadData({
-        pageNumber: pageNumber,
-        pageSize: pageSize,
-        offset: (pageNumber - 1) * pageSize,
+        pageable: {
+          pageNumber: pageNumber,
+          pageSize: pageSize,
+          offset: (pageNumber - 1) * pageSize,
+        },
       });
 
       showSuccessMessage('Product deleted successfully!');
@@ -188,22 +201,55 @@ const WebShopProductList = () => {
 
   useEffect(() => {
     loadData({
-      pageNumber: pageNumber,
-      pageSize: pageSize,
-      offset: 0,
+      pageable: {
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        offset: 0,
+      },
     });
   }, []);
 
   useEffect(() => {
     loadData({
-      pageNumber: pageNumber,
-      pageSize: pageSize,
-      offset: (pageNumber - 1) * pageSize,
+      pageable: {
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        offset: (pageNumber - 1) * pageSize,
+      },
     });
   }, [pageSize, pageNumber]);
 
+  const onSubmitFiltersAndSorters = () => {
+    loadData({
+      pageable: {
+        pageNumber: 1,
+        pageSize: 10,
+        offset: 0,
+      },
+      sorters: sorters,
+      filters: filters,
+    });
+  };
+
   return (
     <div>
+      <div className='filters-sorters-collapse'>
+        <WebShopCollapse header='Filters and Sorters'>
+          <WebShopProductFilters
+            onApplyFilters={setFilters}
+            isLoading={isLoading}
+          />
+          <WebShopProductSorters
+            onApplySorters={setSorters}
+            isLoading={isLoading}
+          />
+          <WebShopButton
+            text='Submit'
+            onClick={onSubmitFiltersAndSorters}
+            isLoading={isLoading}
+          />
+        </WebShopCollapse>
+      </div>
       <List
         className='product-list'
         itemLayout='horizontal'
