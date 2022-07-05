@@ -1,0 +1,47 @@
+.title {
+  text-align: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-weight: bold;
+  font-size: 32;
+}
+
+.ant-drawer-body {
+  padding: 0%;
+}
+
+.webshop-drawer {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.title-wrapper {
+  margin-top: 12px;
+}
+
+.info-name {
+  margin-right: 8px;
+  font-weight: bold;
+  margin-left: 32px;
+  display: flex;
+  width: 170px;
+}
+
+.info-description {
+  width: auto;
+}
+
+.attribute {
+  display: flex;
+  font-size: 16px;
+}
+
+.description-wrapper {
+  margin-right: 32px;
+  margin-top: 24px;
+}
+
+.avatar {
+  float: right;
+  margin-top: 48px;
+}

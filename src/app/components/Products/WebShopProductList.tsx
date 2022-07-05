@@ -19,12 +19,14 @@ import {
 } from 'utils/constants/messages/messages.helper';
 import { ProductRoutes } from 'utils/constants/routes/app-routes.consts';
 import { numberFormatter } from 'utils/helpers/number-formatter.helper';
+import { getUserName } from 'utils/helpers/username.helper';
 import WebShopProductFilters from '../Shared/Form/Misc/WebShopProductFilters/WebShopProductFilters';
 import WebShopProductSorters from '../Shared/Form/Misc/WebShopProductSorters/WebShopProductSorters';
 import WebShopButton from '../Shared/Misc/WebShopButton/WebShopButton';
 import WebShopCollapse from '../Shared/Misc/WebShopCollapse/WebShopCollapse';
 import WebShopPagination from '../Shared/Misc/WebShopPagination/WebShopPagination';
 import './styles.scss';
+import WebShopProductDrawer from './WebShopProductDrawer/WebShopProductDrawer';
 
 const WebShopProductList = () => {
   const [data, setData] = useState<ProductPageResponseDTO>();
@@ -34,6 +36,8 @@ const WebShopProductList = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [filters, setFilters] = useState<FilterRequestDTO>();
   const [sorters, setSorters] = useState<SortersRequestDTO>();
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductResponseDTO>();
 
   const loadData = async ({
     pageable,
@@ -187,12 +191,6 @@ const WebShopProductList = () => {
     return actions;
   };
 
-  const getUserName = (item: ProductResponseDTO) => {
-    return item.seller?.account != null
-      ? item.seller?.account?.firstName + ' ' + item.seller?.account?.lastName
-      : 'Michael';
-  };
-
   const onChange = (pageNumber: number, pageSize: number) => {
     setPageNumber(pageNumber);
     setPageSize(pageSize);
@@ -230,6 +228,15 @@ const WebShopProductList = () => {
       sorters: sorters,
       filters: filters,
     });
+  };
+
+  const showProduct = (product: ProductResponseDTO) => {
+    setSelectedProduct(product);
+    setDrawerVisible(true);
+  };
+
+  const onProductDrawerClose = () => {
+    setDrawerVisible(false);
   };
 
   return (
@@ -279,8 +286,14 @@ const WebShopProductList = () => {
                 avatar={
                   <div className='grid-item-1' style={{ display: 'flex' }}>
                     <Avatar src='https://joeschmoe.io/api/v1/random' />
-                    <div style={{ marginLeft: '8px', textAlign: 'center' }}>
-                      {getUserName(item)}
+                    <div
+                      style={{
+                        marginLeft: '8px',
+                        textAlign: 'center',
+                        marginTop: '4px',
+                      }}
+                    >
+                      {getUserName(item?.seller?.account)}
                     </div>
                   </div>
                 } // TODO: user avatar image placeholder, should replace when image storing to s3 is enabled
@@ -290,7 +303,8 @@ const WebShopProductList = () => {
                 title={
                   <a
                     className='grid-item-2'
-                    href={ProductRoutes.SingleProduct(item.uuid)}
+                    onClick={() => showProduct(item)}
+                    // href={ProductRoutes.SingleProduct(item.uuid)} TODO: if wanted for a producgt to be on a separate page
                   >
                     {item.name.substring(0, 56) +
                       (item.name.length > 56 ? '...' : '')}
@@ -323,6 +337,12 @@ const WebShopProductList = () => {
             )}
           </div>
         )}
+      />
+      <WebShopProductDrawer
+        placement='right'
+        product={selectedProduct}
+        visible={drawerVisible}
+        onClose={onProductDrawerClose}
       />
       {data?.productPage?.content.length !== 0 && (
         <WebShopPagination

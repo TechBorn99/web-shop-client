@@ -2,7 +2,7 @@ import moment, { Moment } from 'moment';
 
 export enum DateFormatEnum {
   ISO8601 = 'yyyy-MM-DD',
-  ReadableDate = 'DD. MMM. yyyy',
+  ReadableDate = 'DD. MMMM yyyy.',
   APIReadableDate = 'yyyy-MM-DDTHH:mm',
 }
 
