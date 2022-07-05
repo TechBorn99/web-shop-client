@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Divider,
-  List,
-  Pagination,
-  PaginationProps,
-  Space,
-} from 'antd';
+import { Avatar, Divider, List } from 'antd';
 import { Roles } from 'core/services/http/auth/dto/auth-service.response.dto';
 import {
   FilterRequestDTO,
@@ -16,39 +9,19 @@ import {
   ProductResponseDTO,
 } from 'core/services/http/products/dto/product-service.response.dto';
 import productService from 'core/services/http/products/product.service';
-import {
-  PageableDTO,
-  Paged,
-} from 'core/services/http/_base/dto/base-service.response.dto';
+import { PageableDTO } from 'core/services/http/_base/dto/base-service.response.dto';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'types';
 import {
   showErrorMessage,
-  startLoadingMessage,
+  showSuccessMessage,
 } from 'utils/constants/messages/messages.helper';
 import { ProductRoutes } from 'utils/constants/routes/app-routes.consts';
 import { numberFormatter } from 'utils/helpers/number-formatter.helper';
 import WebShopButton from '../Shared/Misc/WebShopButton/WebShopButton';
 import WebShopPagination from '../Shared/Misc/WebShopPagination/WebShopPagination';
 import './styles.scss';
-
-// const data = Array.from({ length: 23 }).map((_, i) => ({
-//   href: 'https://ant.design',
-//   title: `ant design part ${i}`,
-//   avatar: 'https://joeschmoe.io/api/v1/random',
-//   description:
-//     'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-//   content:
-//     'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-// }));
-
-// const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-//   <Space>
-//     {React.createElement(icon)}
-//     {text}
-//   </Space>
-// );
 
 const WebShopProductList = () => {
   const [data, setData] = useState<ProductPageResponseDTO>();
@@ -84,44 +57,95 @@ const WebShopProductList = () => {
 
   const addToCart = () => {};
 
-  const setProductAsUnavailable = () => {};
+  const setProductAsUnavailable = async item => {
+    try {
+      setIsLoading(true);
 
-  const setProductAsAvailable = () => {};
+      await productService.makeProductUnavailable(item.uuid);
 
-  const deleteProduct = () => {};
+      loadData({
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        offset: (pageNumber - 1) * pageSize,
+      });
 
-  const renderActions = (isItemAvailable: boolean): ReactNode[] => {
+      showSuccessMessage('Product availability changed successfully!');
+    } catch (err: any) {
+      showErrorMessage(
+        'An error occurred while trying to make a product unavailable!',
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const setProductAsAvailable = async item => {
+    try {
+      setIsLoading(true);
+
+      await productService.makeProductAvailable(item.uuid);
+
+      loadData({
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        offset: (pageNumber - 1) * pageSize,
+      });
+
+      showSuccessMessage('Product availability changed successfully!');
+    } catch (err: any) {
+      showErrorMessage(
+        'An error occurred while trying to make a product available!',
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteProduct = async (item: ProductResponseDTO) => {
+    try {
+      setIsLoading(true);
+
+      await productService.softDeleteProduct(item.uuid);
+
+      loadData({
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+        offset: (pageNumber - 1) * pageSize,
+      });
+
+      showSuccessMessage('Product deleted successfully!');
+    } catch (err: any) {
+      showErrorMessage(
+        'An error occurred while trying to delete a product! Deletion was unsuccessful.',
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const renderActions = (item: ProductResponseDTO): ReactNode[] => {
     const actions: ReactNode[] = [];
 
-    if (user?.role.name === Roles.WebShopCustomer) {
-      actions.push(
-        <WebShopButton
-          isLoading={isLoading}
-          text='Add to cart'
-          onClick={addToCart}
-          type='primary'
-          isDisabled={!isItemAvailable}
-        />,
-      );
-    }
-
-    if (user?.role.name === Roles.WebShopSeller) {
+    if (
+      user?.role.name === Roles.WebShopSeller &&
+      user.email === item.seller.account.email
+    ) {
       actions.push(
         <WebShopButton
           isLoading={isLoading}
           text='Delete product'
-          onClick={deleteProduct}
+          onClick={() => deleteProduct(item)}
           type='primary'
           isDanger={true}
         />,
       );
 
       actions.push(
-        isItemAvailable ? (
+        item.isAvailable ? (
           <WebShopButton
             isLoading={isLoading}
             text='Set product as unavailable'
-            onClick={setProductAsUnavailable}
+            onClick={() => setProductAsUnavailable(item)}
             type='primary'
             isDanger={true}
           />
@@ -129,10 +153,22 @@ const WebShopProductList = () => {
           <WebShopButton
             isLoading={isLoading}
             text='Set product as available'
-            onClick={setProductAsAvailable}
+            onClick={() => setProductAsAvailable(item)}
             type='primary'
           />
         ),
+      );
+    }
+
+    if (user == null || user?.role.name !== Roles.WebShopSeller) {
+      actions.push(
+        <WebShopButton
+          isLoading={isLoading}
+          text='Add to cart'
+          onClick={addToCart}
+          type='primary'
+          isDisabled={!item.isAvailable}
+        />,
       );
     }
 
@@ -142,7 +178,7 @@ const WebShopProductList = () => {
   const getUserName = (item: ProductResponseDTO) => {
     return item.seller?.account != null
       ? item.seller?.account?.firstName + ' ' + item.seller?.account?.lastName
-      : 'John Doe';
+      : 'Michael';
   };
 
   const onChange = (pageNumber: number, pageSize: number) => {
@@ -230,7 +266,7 @@ const WebShopProductList = () => {
               </div>
             </List.Item>
             <div style={{ maxWidth: '300px', display: 'flex', gap: '12px' }}>
-              {renderActions(item.isAvailable)}
+              {renderActions(item)}
             </div>
             {index + 1 !== data?.productPage?.content?.length && (
               <Divider
@@ -249,18 +285,6 @@ const WebShopProductList = () => {
           pageSize={pageSize}
           isLoading={isLoading}
         />
-        // <div>
-        //   <Pagination
-        //     disabled={isLoading}
-        //     showSizeChanger
-        //     className='pagination'
-        //     showQuickJumper={false}
-        //     onChange={onChange}
-        //     total={totalProducts}
-        //     pageSize={pageSize}
-        //     current={pageNumber}
-        //   />
-        // </div>
       )}
     </div>
   );

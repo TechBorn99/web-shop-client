@@ -15,4 +15,10 @@ export const WebShopApiAuthUrls = {
 
 export const WebShopApiProductUrl = {
   GetProductPage: `${WEBSHOP_API_PRODUCTS_BASE_URL}`,
+  MakeProductAvailable: (uuid: string) =>
+    `${WEBSHOP_API_PRODUCTS_BASE_URL}/product/${uuid}/available`,
+  MakeProductUnavailable: (uuid: string) =>
+    `${WEBSHOP_API_PRODUCTS_BASE_URL}/product/${uuid}/not-available`,
+  SoftDeleteProduct: (uuid: string) =>
+    `${WEBSHOP_API_PRODUCTS_BASE_URL}/product/${uuid}`,
 };

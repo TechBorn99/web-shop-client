@@ -15,6 +15,7 @@ import SignUpContainer from './containers/Auth/SignUpContainer/SignUpContainer';
 import AuthChecker from './components/Checkers/AuthChecker';
 import WebShopStoreInitializer from './components/Initializers/WebShopStoreInitializer';
 import WebShopHeader from './components/Layout/Header/WebShopHeader';
+import WebShopFooter from './components/Layout/Footer/Footer';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -48,6 +49,7 @@ export function App() {
           </Route>
           <Route path={GlobalRoutes.NotFound} element={<NotFoundPage />} />
         </Routes>
+        <WebShopFooter />
       </AuthChecker>
     </BrowserRouter>
   );
