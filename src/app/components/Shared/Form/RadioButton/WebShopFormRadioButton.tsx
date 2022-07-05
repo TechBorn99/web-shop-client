@@ -2,7 +2,7 @@ import { Form, Radio, RadioChangeEvent } from 'antd';
 import React from 'react';
 
 interface WebShopFormRadioButtonProps {
-  currentValue: string;
+  currentValue: any;
   values: any[];
   options: any[];
   onChange: (e: RadioChangeEvent) => void;

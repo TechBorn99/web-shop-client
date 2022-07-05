@@ -50,7 +50,10 @@ const AuthChecker = ({ children }) => {
         console.log('error');
       }
     } else {
-      if (!location.pathname.includes(GlobalRoutes.Auth)) {
+      if (
+        !location.pathname.includes(GlobalRoutes.Auth) &&
+        !location.pathname.includes(GlobalRoutes.Home)
+      ) {
         navigate(AuthRoutes.SignIn);
       }
     }
