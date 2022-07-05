@@ -10,7 +10,6 @@ import {
   ProductResponseDTO,
 } from 'core/services/http/products/dto/product-service.response.dto';
 import productService from 'core/services/http/products/product.service';
-import { PageableDTO } from 'core/services/http/_base/dto/base-service.response.dto';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'types';
@@ -216,6 +215,8 @@ const WebShopProductList = () => {
         pageSize: pageSize,
         offset: (pageNumber - 1) * pageSize,
       },
+      sorters: sorters,
+      filters: filters,
     });
   }, [pageSize, pageNumber]);
 
