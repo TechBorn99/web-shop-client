@@ -1,5 +1,5 @@
 export const GlobalRoutes = {
-  Home: '/',
+  Home: '/home',
   Auth: '/auth',
   NotFound: '*',
 };
@@ -9,4 +9,9 @@ export const AuthRoutes = {
   SignUp: `${GlobalRoutes.Auth}/sign-up`,
   ForgotPassword: `${GlobalRoutes.Auth}/forgot-password`,
   ResetPassword: `${GlobalRoutes.Auth}/reset-password`,
+};
+
+export const ProductRoutes = {
+  SingleProduct: (productUuid: string) =>
+    `${GlobalRoutes.Home}/products/${productUuid}`,
 };

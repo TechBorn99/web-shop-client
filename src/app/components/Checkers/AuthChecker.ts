@@ -46,11 +46,18 @@ const AuthChecker = ({ children }) => {
         // if (!location.pathname.includes(GlobalRoutes.Dashboard)) {
         //   navigate(GlobalRoutes.Dashboard);
         // }
-      } catch {
-        console.log('error');
+      } catch (err: any) {
+        if (err.response.status === 403) {
+          localStorageService.clearUser();
+        } else {
+          console.log('error');
+        }
       }
     } else {
-      if (!location.pathname.includes(GlobalRoutes.Auth)) {
+      if (
+        !location.pathname.includes(GlobalRoutes.Auth) &&
+        !location.pathname.includes(GlobalRoutes.Home)
+      ) {
         navigate(AuthRoutes.SignIn);
       }
     }
@@ -64,14 +71,14 @@ const AuthChecker = ({ children }) => {
       // ) {
       //   return children;
       // } else {
-      //   return <FinForbiddenPage />;
+      //   return <WebShopForbiddenPage />;
       // }
     }
 
     if (location.pathname.includes(GlobalRoutes.Auth)) return children;
 
     return children;
-    //return <FinLoadingPage />;
+    //return <WebShopLoadingPage />;
   }, [location, userInfo]);
 
   return shouldRenderApplication;

@@ -8,9 +8,9 @@ export interface BaseDTOWithTimestamps extends BaseDTO {
 }
 
 export interface PageableDTO {
-  page?: number;
-  pageSize?: number;
-  sort?: string;
+  pageNumber: number;
+  pageSize: number;
+  offset: number;
 }
 
 export interface Paged<T> {
@@ -18,4 +18,6 @@ export interface Paged<T> {
   size: number;
   totalElements: number;
   totalPages: number;
+  pageable: PageableDTO;
+  numberOfElements: number;
 }
