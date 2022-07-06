@@ -11,3 +11,10 @@ export interface ProductSortersFormModel {
   descending: boolean;
   attribute: 'name' | 'price' | 'dateOfCreation';
 }
+
+export interface ProductFormModel {
+  name: string;
+  price: number;
+  isAvailable: boolean;
+  description: string;
+}

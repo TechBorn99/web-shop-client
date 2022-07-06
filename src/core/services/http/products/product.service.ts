@@ -1,7 +1,11 @@
 import { AxiosResponse } from 'axios';
 import { WebShopApiProductUrl } from 'utils/constants/api/webshop-api-endpoints.consts';
 import BaseHttpService from '../_base/base-http.service';
-import { GetProductPageWithFiltersRequestDTO } from './dto/product-service.request.dto';
+import {
+  CreateProductRequestDTO,
+  GetProductPageWithFiltersRequestDTO,
+  UpdateProductRequestDTO,
+} from './dto/product-service.request.dto';
 import {
   ProductPageResponseDTO,
   ProductResponseDTO,
@@ -34,6 +38,22 @@ class ProductService extends BaseHttpService {
     return this.http.delete(
       WebShopApiProductUrl.SoftDeleteProduct(productUuid),
     );
+  }
+
+  createNewProduct(
+    requestDTO: CreateProductRequestDTO,
+  ): Promise<AxiosResponse<ProductResponseDTO>> {
+    return this.http.post(WebShopApiProductUrl.CreateNewProduct, requestDTO, {
+      withCredentials: true,
+    });
+  }
+
+  updateProduct(
+    requestDTO: UpdateProductRequestDTO,
+  ): Promise<AxiosResponse<ProductResponseDTO>> {
+    return this.http.put(WebShopApiProductUrl.UpdateProduct, requestDTO, {
+      withCredentials: true,
+    });
   }
 }
 
