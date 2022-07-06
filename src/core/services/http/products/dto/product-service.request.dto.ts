@@ -30,3 +30,18 @@ export interface GetProductPageWithFiltersRequestDTO {
   filters?: FilterRequestDTO;
   sorters?: SortersRequestDTO;
 }
+
+export interface CreateProductRequestDTO {
+  name: string;
+  description: string;
+  isAvailable: boolean;
+  price: number;
+}
+
+export interface UpdateProductRequestDTO {
+  uuid?: string;
+  name: string;
+  description: string;
+  isAvailable: boolean;
+  price: number;
+}

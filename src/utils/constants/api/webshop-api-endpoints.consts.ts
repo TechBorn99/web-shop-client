@@ -21,4 +21,6 @@ export const WebShopApiProductUrl = {
     `${WEBSHOP_API_PRODUCTS_BASE_URL}/product/${uuid}/not-available`,
   SoftDeleteProduct: (uuid: string) =>
     `${WEBSHOP_API_PRODUCTS_BASE_URL}/product/${uuid}`,
+  CreateNewProduct: `${WEBSHOP_API_PRODUCTS_BASE_URL}/create`,
+  UpdateProduct: `${WEBSHOP_API_PRODUCTS_BASE_URL}/product/update`,
 };

@@ -13,11 +13,12 @@ import productService from 'core/services/http/products/product.service';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'types';
+import { ProductFormModel } from 'utils/constants/form-models/ProductFormModels';
 import {
+  showConfirmMessage,
   showErrorMessage,
   showSuccessMessage,
 } from 'utils/constants/messages/messages.helper';
-import { ProductRoutes } from 'utils/constants/routes/app-routes.consts';
 import { numberFormatter } from 'utils/helpers/number-formatter.helper';
 import { getUserName } from 'utils/helpers/username.helper';
 import WebShopProductFilters from '../Shared/Form/Misc/WebShopProductFilters/WebShopProductFilters';
@@ -25,6 +26,7 @@ import WebShopProductSorters from '../Shared/Form/Misc/WebShopProductSorters/Web
 import WebShopButton from '../Shared/Misc/WebShopButton/WebShopButton';
 import WebShopCollapse from '../Shared/Misc/WebShopCollapse/WebShopCollapse';
 import WebShopPagination from '../Shared/Misc/WebShopPagination/WebShopPagination';
+import WebShopProductChangeModal from './CreateProductModal/WebShopCreateProductModal';
 import './styles.scss';
 import WebShopProductDrawer from './WebShopProductDrawer/WebShopProductDrawer';
 
@@ -38,6 +40,12 @@ const WebShopProductList = () => {
   const [sorters, setSorters] = useState<SortersRequestDTO>();
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ProductResponseDTO>();
+  const [isCreateProductModalVisible, setIsCreateProductModalVisible] =
+    useState(false);
+  const [isUpdateProductModalVisible, setIsUpdateProductModalVisible] =
+    useState(false);
+  const [selectedProductForUpdate, setSelectedProductForUpdate] =
+    useState<ProductResponseDTO | null>();
 
   const loadData = async ({
     pageable,
@@ -150,9 +158,23 @@ const WebShopProductList = () => {
         <WebShopButton
           isLoading={isLoading}
           text='Delete product'
-          onClick={() => deleteProduct(item)}
+          onClick={() =>
+            showConfirmMessage(
+              'Confirm deletion',
+              'Are you sure you want to delete this product?',
+              () => {
+                deleteProduct(item);
+              },
+            )
+          }
           type='primary'
           isDanger={true}
+        />,
+        <WebShopButton
+          isLoading={isLoading}
+          text='Update a product'
+          onClick={() => handleOpenUpdateProductModal(item)}
+          type='primary'
         />,
       );
 
@@ -239,6 +261,83 @@ const WebShopProductList = () => {
     setDrawerVisible(false);
   };
 
+  const handleOpenCreateProductModal = () => {
+    setIsCreateProductModalVisible(true);
+  };
+
+  const handleCloseCreateProductModal = () => {
+    setIsCreateProductModalVisible(false);
+  };
+
+  const handleCreateNewProduct = async ({
+    name,
+    description,
+    isAvailable,
+    price,
+  }: ProductFormModel) => {
+    try {
+      setIsLoading(true);
+
+      await productService.createNewProduct({
+        name: name,
+        description: description,
+        isAvailable: isAvailable,
+        price: price,
+      });
+
+      onSubmitFiltersAndSorters();
+
+      showSuccessMessage('A new product was added successfully.');
+    } catch (err: any) {
+      if (err.response.status === 409) {
+        showErrorMessage(
+          'A product with this name is already created by this user, please select another name.',
+        );
+      } else {
+        showErrorMessage('An error occurred while trying to save a product.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleCloseUpdateProductModal = () => {
+    setSelectedProductForUpdate(null);
+    setIsUpdateProductModalVisible(false);
+  };
+
+  const handleOpenUpdateProductModal = (product: ProductResponseDTO) => {
+    setSelectedProductForUpdate(product);
+    setIsUpdateProductModalVisible(true);
+  };
+
+  const handleUpdateProduct = async (
+    { name, description, isAvailable, price }: ProductFormModel,
+    productUuid,
+  ) => {
+    try {
+      setIsLoading(true);
+
+      console.log(productUuid);
+
+      await productService.updateProduct({
+        uuid: productUuid,
+        name: name,
+        description: description,
+        isAvailable: isAvailable,
+        price: price,
+      });
+
+      onSubmitFiltersAndSorters();
+
+      showSuccessMessage('Product was successfully updated.');
+    } catch (err: any) {
+      showErrorMessage('An error occurred!');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div>
       <div className='filters-sorters-collapse'>
@@ -258,6 +357,26 @@ const WebShopProductList = () => {
           />
         </WebShopCollapse>
       </div>
+      {user?.role.name === Roles.WebShopSeller && (
+        <div style={{ maxWidth: '50%', margin: '24px auto 0' }}>
+          <div style={{ maxWidth: '25%', marginLeft: 'auto' }}>
+            <WebShopButton
+              isLoading={isLoading}
+              type='primary'
+              text='Add a new product'
+              onClick={handleOpenCreateProductModal}
+            />
+          </div>
+        </div>
+      )}
+      <WebShopProductChangeModal
+        isVisible={isCreateProductModalVisible}
+        onSubmit={handleCreateNewProduct}
+        onCancel={handleCloseCreateProductModal}
+        isLoading={isLoading}
+        title='Add a new product'
+        submitButtonText='Create'
+      />
       <List
         className='product-list'
         itemLayout='horizontal'
@@ -343,6 +462,15 @@ const WebShopProductList = () => {
         product={selectedProduct}
         visible={drawerVisible}
         onClose={onProductDrawerClose}
+      />
+      <WebShopProductChangeModal
+        isVisible={isUpdateProductModalVisible}
+        onSubmit={handleUpdateProduct}
+        onCancel={handleCloseUpdateProductModal}
+        isLoading={isLoading}
+        title='Update a product'
+        formData={selectedProductForUpdate}
+        submitButtonText='Update'
       />
       {data?.productPage?.content.length !== 0 && (
         <WebShopPagination
