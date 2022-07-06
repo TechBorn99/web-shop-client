@@ -11,6 +11,7 @@ export interface UserDetailsResponseDTO extends BaseDTO {
   firstName: string;
   lastName: string;
   role: RoleResponseDTO;
+  shoppingCartUuid;
 }
 
 export interface RoleResponseDTO {

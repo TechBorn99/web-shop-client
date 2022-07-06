@@ -3,6 +3,18 @@ const AuthKeys = {
   token: 'token',
 };
 
+const ShoppingCartKeys = {
+  cart: 'cart',
+};
+
+interface LocalStorageCartItem {
+  uuid: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+}
+
 class LocalStorageService {
   signUserIn({ token }: { token: string }): void {
     localStorage.removeItem(AuthKeys.token);
@@ -27,6 +39,28 @@ class LocalStorageService {
     return {
       token: localStorage.getItem(AuthKeys.token) ?? '',
     };
+  }
+
+  addAProductToTheCart(product: LocalStorageCartItem): void {
+    const localStorageCart = localStorage.getItem(ShoppingCartKeys.cart);
+
+    if (localStorageCart) {
+      let cartItems: LocalStorageCartItem[] = JSON.parse(localStorageCart);
+
+      if (cartItems.some(item => item.uuid === product.uuid)) {
+        cartItems = cartItems.map(item => {
+          if (item.uuid === product.uuid) item.quantity++;
+
+          return item;
+        });
+      } else {
+        cartItems.push(product);
+      }
+
+      localStorage.setItem(ShoppingCartKeys.cart, JSON.stringify(cartItems));
+    } else {
+      localStorage.setItem(ShoppingCartKeys.cart, JSON.stringify([product]));
+    }
   }
 }
 

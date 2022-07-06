@@ -10,6 +10,8 @@ import {
   ProductResponseDTO,
 } from 'core/services/http/products/dto/product-service.response.dto';
 import productService from 'core/services/http/products/product.service';
+import shoppingCartService from 'core/services/http/shopping-cart/shopping-cart.service';
+import localStorageService from 'core/services/internal/local-storage.service';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'types';
@@ -73,7 +75,43 @@ const WebShopProductList = () => {
     }
   };
 
-  const addToCart = () => {};
+  const addToCart = async (product: ProductResponseDTO) => {
+    try {
+      setIsLoading(true);
+
+      if (user) {
+        await shoppingCartService.addAProduct(
+          {
+            quantity: 1,
+            cartItem: {
+              uuid: product.uuid,
+              name: product.name,
+              price: product.price,
+              description: product.description,
+            },
+          },
+          user.shoppingCartUuid,
+        );
+      } else {
+        localStorageService.addAProductToTheCart({
+          uuid: product.uuid,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          quantity: 1,
+        });
+      }
+
+      showSuccessMessage('Product was successfully added to you cart!');
+    } catch (err: any) {
+      console.log({ err });
+      showErrorMessage(
+        'An error has occurred while trying to add an item to cart!',
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const setProductAsUnavailable = async item => {
     try {
@@ -203,7 +241,7 @@ const WebShopProductList = () => {
         <WebShopButton
           isLoading={isLoading}
           text='Add to cart'
-          onClick={addToCart}
+          onClick={() => addToCart(item)}
           type='primary'
           isDisabled={!item.isAvailable}
         />,
