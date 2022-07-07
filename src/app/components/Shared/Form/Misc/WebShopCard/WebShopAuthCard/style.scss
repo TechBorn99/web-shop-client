@@ -1,46 +1,46 @@
 .webshop-auth-card-container {
-    border-radius: 8px;
+  border-radius: 8px;
+  display: flex;
+  width: 1100px;
+  height: 640px;
+  background-color: #fff;
+  box-shadow: -4px 14px 10px rgba(0, 0, 0, 0.04);
+
+  &__content {
+    flex: 1;
     display: flex;
-    width: 1100px;
-    height: 640px;
-    background-color: #fff;
-    box-shadow: -4px 14px 10px rgba(0, 0, 0, 0.04);
-  
-    &__content {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-  
-    &__additional-info {
-      flex: 1.8;
-      background-color: rgb(73, 101, 219);
-      border-top-right-radius: inherit;
-      border-bottom-right-radius: inherit;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__additional-info {
+    flex: 1.8;
+    background-color: rgb(73, 101, 219);
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #fff;
+    text-align: center;
+
+    h1 {
       color: #fff;
-      text-align: center;
-  
-      h1 {
-        color: #fff;
-        font-size: 50px;
-      }
-  
-      h3 {
-          color: #fff;
-      }
-  
-      img {
-        margin-bottom: 24px;
-      }
-  
-      p {
-          width: 400px;
-          color: rgba(255, 255, 255, 0.74);
-      }
+      font-size: 50px;
+    }
+
+    h3 {
+      color: #fff;
+    }
+
+    img {
+      margin-bottom: 24px;
+    }
+
+    p {
+      width: 400px;
+      color: rgba(255, 255, 255, 0.74);
     }
   }
+}

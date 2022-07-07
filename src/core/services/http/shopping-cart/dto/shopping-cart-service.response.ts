@@ -13,8 +13,6 @@ export interface ShoppingCartItemResponseDTO {
 }
 
 export interface ShoppingCartResponseDTO {
-  uuid: string;
-  customer: WebShopCustomerResponseDTO;
-  cartItems: ShoppingCartItemResponseDTO[];
+  shoppingCartItems: ShoppingCartItemResponseDTO[];
   totalPrice: number;
 }

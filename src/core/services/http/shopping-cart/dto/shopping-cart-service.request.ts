@@ -1,11 +1,12 @@
-export interface CartItemRequestDTO {
-  uuid: string;
-  name: string;
-  description: string;
-  price: number;
+export interface ShoppingCartItemRequestDTO {
+  cartItemUuid: string;
+  quantity: number;
 }
 
-export interface ShoppingCartItemRequestDTO {
-  cartItem: CartItemRequestDTO;
-  quantity: number;
+export interface ShoppingCartItemsUuidsRequestDTO {
+  cartItemsUuids: string[];
+}
+
+export interface RemoveSingleItemFromShoppingCartRequestDTO {
+  cartItemUuid: string;
 }

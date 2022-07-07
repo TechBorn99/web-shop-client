@@ -80,24 +80,13 @@ const WebShopProductList = () => {
       setIsLoading(true);
 
       if (user) {
-        await shoppingCartService.addAProduct(
-          {
-            quantity: 1,
-            cartItem: {
-              uuid: product.uuid,
-              name: product.name,
-              price: product.price,
-              description: product.description,
-            },
-          },
-          user.shoppingCartUuid,
-        );
+        await shoppingCartService.addAProduct({
+          quantity: 1,
+          cartItemUuid: product.uuid,
+        });
       } else {
         localStorageService.addAProductToTheCart({
-          uuid: product.uuid,
-          name: product.name,
-          description: product.description,
-          price: product.price,
+          cartItemUuid: product.uuid,
           quantity: 1,
         });
       }

@@ -1,9 +1,13 @@
 import { BaseDTO } from '../../_base/dto/base-service.response.dto';
 
 export enum Roles {
-  WebShopAdministrator = 'WEBSHOP_ADMINISTRATOR',
+  WebShopAdmin = 'WEBSHOP_ADMIN',
   WebShopCustomer = 'WEBSHOP_CUSTOMER',
   WebShopSeller = 'WEBSHOP_SELLER',
+}
+
+interface UserShoppingCart {
+  uuid: string;
 }
 
 export interface UserDetailsResponseDTO extends BaseDTO {
@@ -11,7 +15,6 @@ export interface UserDetailsResponseDTO extends BaseDTO {
   firstName: string;
   lastName: string;
   role: RoleResponseDTO;
-  shoppingCartUuid;
 }
 
 export interface RoleResponseDTO {

@@ -16,6 +16,8 @@ import AuthChecker from './components/Checkers/AuthChecker';
 import WebShopStoreInitializer from './components/Initializers/WebShopStoreInitializer';
 import WebShopHeader from './components/Layout/Header/WebShopHeader';
 import WebShopFooter from './components/Layout/Footer/Footer';
+import ShoppingCartContainer from './containers/ShoppingCartContainer/ShoppingCartContainer';
+import DashboardContainer from './containers/Dashboard/DashboardContainer';
 
 export function App() {
   const { i18n } = useTranslation();
@@ -33,6 +35,10 @@ export function App() {
         </Helmet>
         <WebShopHeader />
         <Routes>
+          <Route
+            path={GlobalRoutes.Dashboard}
+            element={<DashboardContainer />}
+          />
           <Route path={GlobalRoutes.Home} element={<HomePage />} />
           <Route path={GlobalRoutes.Auth}>
             <Route path={AuthRoutes.SignUp} element={<SignUpContainer />} />
@@ -47,6 +53,10 @@ export function App() {
             />
             <Route path={GlobalRoutes.NotFound} element={<NotFoundPage />} />
           </Route>
+          <Route
+            path={GlobalRoutes.ShoppingCart}
+            element={<ShoppingCartContainer />}
+          />
           <Route path={GlobalRoutes.NotFound} element={<NotFoundPage />} />
         </Routes>
         <WebShopFooter />

@@ -36,27 +36,35 @@ const AuthChecker = ({ children }) => {
 
     if (token) {
       try {
-        const { data: userDetails } = await authService.getUserInfo();
+        try {
+          const { data: userDetails } = await authService.getUserInfo();
 
-        dispatch(authStoreActions.setUserInfo(userDetails));
+          dispatch(authStoreActions.setUserInfo(userDetails));
 
-        if (!location.pathname.includes(GlobalRoutes.Home)) {
-          navigate(GlobalRoutes.Home);
+          if (
+            !location.pathname.includes(GlobalRoutes.Home) &&
+            !location.pathname.includes(GlobalRoutes.ShoppingCart) &&
+            !location.pathname.includes(GlobalRoutes.Dashboard)
+          ) {
+            navigate(GlobalRoutes.Home);
+          }
+          // if (!location.pathname.includes(GlobalRoutes.Dashboard)) {
+          //   navigate(GlobalRoutes.Dashboard);
+          // }
+        } catch (err: any) {
+          if (err.response.status === 403) {
+            dispatch(authStoreActions.clearUser());
+            localStorageService.clearUser();
+          }
         }
-        // if (!location.pathname.includes(GlobalRoutes.Dashboard)) {
-        //   navigate(GlobalRoutes.Dashboard);
-        // }
       } catch (err: any) {
-        if (err.response.status === 403) {
-          localStorageService.clearUser();
-        } else {
-          console.log('error');
-        }
+        console.log('error');
       }
     } else {
       if (
         !location.pathname.includes(GlobalRoutes.Auth) &&
-        !location.pathname.includes(GlobalRoutes.Home)
+        !location.pathname.includes(GlobalRoutes.Home) &&
+        !location.pathname.includes(GlobalRoutes.ShoppingCart)
       ) {
         navigate(AuthRoutes.SignIn);
       }
