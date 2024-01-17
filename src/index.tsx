@@ -5,37 +5,28 @@
  * code.
  */
 
+import { App } from 'app';
+// Initialize languages
+import 'core/locales/i18n';
+import { configureAppStore } from 'core/store/configureStore';
+import * as React from 'react';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
-
-import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
-
+import reportWebVitals from 'reportWebVitals';
 // Use consistent styling
 import 'sanitize.css/sanitize.css';
+import 'styles/global/main.scss';
 
-// Import root app
-import { App } from 'app';
-
-import { HelmetProvider } from 'react-helmet-async';
-
-import { configureAppStore } from 'store/configureStore';
-
-import reportWebVitals from 'reportWebVitals';
-
-// Initialize languages
-import './locales/i18n';
-
-const store = configureAppStore();
+export const store = configureAppStore();
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
 ReactDOM.render(
   <Provider store={store}>
     <HelmetProvider>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+      <App />
     </HelmetProvider>
   </Provider>,
   MOUNT_NODE,
@@ -43,7 +34,7 @@ ReactDOM.render(
 
 // Hot reloadable translation json files
 if (module.hot) {
-  module.hot.accept(['./locales/i18n'], () => {
+  module.hot.accept(['./core/locales/i18n'], () => {
     // No need to render the App again because i18next works with the hooks
   });
 }
