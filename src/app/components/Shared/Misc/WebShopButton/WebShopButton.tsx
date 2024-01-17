@@ -9,6 +9,8 @@ interface WebShopButtonProps {
   onClick?: () => void;
   isDisabled?: boolean;
   isDanger?: boolean;
+  icon?: any;
+  style?: React.CSSProperties;
 }
 
 export type WebShopButtonType =
@@ -29,16 +31,20 @@ const WebShopButton = ({
   isDisabled = false,
   isDanger = false,
   onClick,
+  icon,
+  style,
 }: WebShopButtonProps) => {
   return (
     <Button
       danger={isDanger}
       disabled={isDisabled}
-      style={{ width: '100%' }}
+      className='webshop-default-button'
+      style={style}
       htmlType={htmlType}
       type={type}
       loading={isLoading}
       onClick={onClick}
+      icon={icon}
     >
       {text}
     </Button>

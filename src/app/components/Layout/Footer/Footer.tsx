@@ -1,10 +1,21 @@
 import { Footer } from 'antd/lib/layout/layout';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import './styles.scss';
 
 const WebShopFooter = () => {
+  const location = useLocation();
+
   return (
-    <Footer>
+    <Footer
+      style={{
+        display:
+          location.pathname.includes('shopping-cart') ||
+          location.pathname.includes('dashboard')
+            ? 'none'
+            : '',
+      }}
+    >
       <div className='grid-wrapper'>
         <div className='grid'>
           <div className='grid-content-1 grid-title'>About company</div>

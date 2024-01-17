@@ -47,24 +47,30 @@ const SignInCard = ({ isLoading, onSubmit }: SignInCardProps) => {
               name='password'
               rules={SignInFormValidator.password}
             />
-            <WebShopFormButton
-              text='Log in'
-              type='primary'
-              htmlType='submit'
-              isLoading={isLoading}
-            />
-            <WebShopFormButton
-              text='Forgot password'
-              type='link'
-              onClick={onForgotPasswordClick}
-              isLoading={isLoading}
-            />
-            <WebShopFormButton
-              text='Sign up'
-              type='ghost'
-              onClick={onSignUpClick}
-              isLoading={isLoading}
-            />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <WebShopFormButton
+                text='Log in'
+                type='primary'
+                htmlType='submit'
+                isLoading={isLoading}
+              />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <WebShopFormButton
+                text='Forgot password'
+                type='link'
+                onClick={onForgotPasswordClick}
+                isLoading={isLoading}
+              />
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <WebShopFormButton
+                text='Sign up'
+                type='ghost'
+                onClick={onSignUpClick}
+                isLoading={isLoading}
+              />
+            </div>
           </Form>
         </WebShopAuthCardContent>
         <WebShopAuthCardAdditionalInfo>
